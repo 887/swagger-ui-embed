@@ -48,14 +48,7 @@ const SWAGGER_UI_TEMPLATE: &str = r#"
 
     buildBundle();
 
-    let version = "";
-
-    fetchAsync("../../hot").then((new_version) => {
-        version = new_version;
-
-        {:inject}
-
-    });
+    {:inject}
 </script>
 
 </body>

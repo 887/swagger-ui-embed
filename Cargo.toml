@@ -1,4 +1,4 @@
-gpackage]
+[package]
 name = "swagger-ui-embed"
 version = "0.1.0"
 edition = "2021"
