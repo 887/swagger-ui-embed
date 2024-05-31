@@ -1,59 +1,21 @@
 use poem::{endpoint::make_sync, web::Html, Endpoint};
 
-const SWAGGER_UI_JS: &str = include_str!("swagger-ui-bundle.js");
-const SWAGGER_UI_CSS: &str = include_str!("swagger-ui.css");
+const SWAGGER_UI_JS: &str = concat!(
+    "<style charset=\"UTF-8\">",
+    include_str!("swagger-ui-bundle.js"),
+    "</style>"
+);
+
+const SWAGGER_UI_CSS: &str = concat!(
+    "script charset=\"UTF-8\">",
+    include_str!("swagger-ui.css"),
+    "</script>"
+);
+
 const OAUTH_RECEIVER_HTML: &str = include_str!("oauth-receiver.html");
 
 //https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
-const SWAGGER_UI_TEMPLATE: &str = r#"
-<html charset="UTF-8">
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>Swagger UI</title>
-<style charset="UTF-8">{:style}</style>
-<script charset="UTF-8">{:script}</script>
-</head>
-<body>
-
-<div id="ui"></div>
-<script>
-    let oauth2RedirectUrl;
-
-    let query = window.location.href.indexOf("?");
-    if (query > 0) {
-        oauth2RedirectUrl = window.location.href.substring(0, query);
-    } else {
-        oauth2RedirectUrl = window.location.href;
-    }
-
-    if (!oauth2RedirectUrl.endsWith("/")) {
-        oauth2RedirectUrl += "/";
-    }
-    oauth2RedirectUrl += "oauth-receiver.html";
-
-    async function fetchAsync (url) {
-        let response = await fetch(url);
-        let data = await response.text();
-        return data;
-    }
-
-    function buildBundle() {
-        return SwaggerUIBundle({
-            dom_id: '#ui',
-            url: "{:url}",
-            filter: false,
-            oauth2RedirectUrl: oauth2RedirectUrl,
-        })
-    };
-
-    buildBundle();
-
-    {:inject}
-</script>
-
-</body>
-</html>
-"#;
+const SWAGGER_UI_TEMPLATE: &str = include_str!("index.html");
 
 #[derive(Debug, Default)]
 pub struct Options<'a> {
@@ -65,8 +27,14 @@ fn create_html(options: Options) -> String {
     SWAGGER_UI_TEMPLATE
         .replace("{:style}", SWAGGER_UI_CSS)
         .replace("{:script}", SWAGGER_UI_JS)
-        .replace("{:url}", options.url.unwrap_or("null"))
-        .replace("{:inject}", options.script.unwrap_or(""))
+        .replace("$url$", options.url.unwrap_or("null"))
+        .replace(
+            "{:inject}",
+            &options
+                .script
+                .map(|script| format!("{}{}{}", "<script>", script, "</script>"))
+                .unwrap_or("".to_owned()),
+        )
 }
 
 pub fn create_endpoint(options: Options) -> impl Endpoint {

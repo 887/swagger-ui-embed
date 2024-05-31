@@ -1,0 +1,47 @@
+<html charset="UTF-8">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>Swagger UI</title>
+{:style:}
+{:script}
+</head>
+<body>
+
+<div id="ui"></div>
+<script>
+    let oauth2RedirectUrl;
+
+    let query = window.location.href.indexOf("?");
+    if (query > 0) {
+        oauth2RedirectUrl = window.location.href.substring(0, query);
+    } else {
+        oauth2RedirectUrl = window.location.href;
+    }
+
+    if (!oauth2RedirectUrl.endsWith("/")) {
+        oauth2RedirectUrl += "/";
+    }
+    oauth2RedirectUrl += "oauth-receiver.html";
+
+    async function fetchAsync (url) {
+        let response = await fetch(url);
+        let data = await response.text();
+        return data;
+    }
+
+    function buildBundle() {
+        return SwaggerUIBundle({
+            dom_id: '#ui',
+            url: $url$,
+            filter: false,
+            oauth2RedirectUrl: oauth2RedirectUrl,
+        })
+    };
+
+    buildBundle();
+
+</script>
+{:inject}
+
+</body>
+</html>
