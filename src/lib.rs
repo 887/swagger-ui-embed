@@ -1,15 +1,15 @@
 use poem::{endpoint::make_sync, web::Html, Endpoint};
 
 const SWAGGER_UI_JS: &str = concat!(
-    "<style charset=\"UTF-8\">",
+    "<style charset=\"UTF-8\">\n",
     include_str!("swagger-ui-bundle.js"),
-    "</style>"
+    "\n</style>"
 );
 
 const SWAGGER_UI_CSS: &str = concat!(
-    "<script charset=\"UTF-8\">",
+    "<script charset=\"UTF-8\">\n",
     include_str!("swagger-ui.css"),
-    "</script>"
+    "\n</script>"
 );
 
 const OAUTH_RECEIVER_HTML: &str = include_str!("oauth-receiver.html");
@@ -27,7 +27,13 @@ fn create_html(options: Options) -> String {
     SWAGGER_UI_TEMPLATE
         .replace("{:style}", SWAGGER_UI_CSS)
         .replace("{:script}", SWAGGER_UI_JS)
-        .replace("$url$", options.url.unwrap_or("null"))
+        .replace(
+            "$url$",
+            &options
+                .url
+                .map(|x| format!("\"{}\"", x))
+                .unwrap_or("null".to_string()),
+        )
         .replace("$inject$", options.script.unwrap_or(""))
 }
 
