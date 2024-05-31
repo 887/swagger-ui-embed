@@ -7,7 +7,7 @@ const SWAGGER_UI_JS: &str = concat!(
 );
 
 const SWAGGER_UI_CSS: &str = concat!(
-    "script charset=\"UTF-8\">",
+    "<script charset=\"UTF-8\">",
     include_str!("swagger-ui.css"),
     "</script>"
 );
