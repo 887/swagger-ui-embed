@@ -1,0 +1,7 @@
+gpackage]
+name = "swagger-ui-embed"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+poem = { version = "^3.0.1" }
