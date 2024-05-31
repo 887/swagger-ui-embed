@@ -28,13 +28,7 @@ fn create_html(options: Options) -> String {
         .replace("{:style}", SWAGGER_UI_CSS)
         .replace("{:script}", SWAGGER_UI_JS)
         .replace("$url$", options.url.unwrap_or("null"))
-        .replace(
-            "{:inject}",
-            &options
-                .script
-                .map(|script| format!("{}{}{}", "<script>", script, "</script>"))
-                .unwrap_or("".to_owned()),
-        )
+        .replace("$inject$", options.script.unwrap_or(""))
 }
 
 pub fn create_endpoint(options: Options) -> impl Endpoint {
