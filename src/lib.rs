@@ -2,13 +2,13 @@ use poem::{endpoint::make_sync, web::Html, Endpoint};
 
 const SWAGGER_UI_JS: &str = concat!(
     "<style charset=\"UTF-8\">\n",
-    include_str!("swagger-ui-bundle.js"),
+    include_str!("swagger-ui.css"),
     "\n</style>"
 );
 
 const SWAGGER_UI_CSS: &str = concat!(
     "<script charset=\"UTF-8\">\n",
-    include_str!("swagger-ui.css"),
+    include_str!("swagger-ui-bundle.js"),
     "\n</script>"
 );
 
