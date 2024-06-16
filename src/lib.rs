@@ -21,6 +21,7 @@ const SWAGGER_UI_TEMPLATE: &str = include_str!("index.html");
 pub struct Options<'a> {
     pub url: Option<&'a str>,
     pub script: Option<&'a str>,
+    pub persist_authorization: Option<bool>,
 }
 
 fn create_html(options: Options) -> String {
@@ -35,6 +36,14 @@ fn create_html(options: Options) -> String {
                 .unwrap_or("null".to_string()),
         )
         .replace("$inject$", options.script.unwrap_or(""))
+        .replace(
+            "$persist_authorization$",
+            (if options.persist_authorization.unwrap_or(false) {
+                "true"
+            } else {
+                "false"
+            }),
+        )
 }
 
 pub fn create_endpoint(options: Options) -> impl Endpoint {
