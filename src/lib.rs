@@ -1,3 +1,4 @@
+#[cfg(feature = "poem")]
 use poem::{endpoint::make_sync, web::Html, Endpoint};
 
 const SWAGGER_UI_JS: &str = concat!(
@@ -46,6 +47,37 @@ fn create_html(options: Options) -> String {
         )
 }
 
+/// Creates the HTML for Swagger UI.
+///
+/// This module provides functions to generate the HTML required to embed Swagger UI in a web application.
+/// It includes the necessary CSS and JavaScript files.
+/// You can get the oauth-receiver.html file as well with the `get_oauth_receiver_html` function.
+///
+/// # Example
+///
+/// ```rust
+/// use swagger_ui_embed::{get_html, Options};
+///
+/// let options = Options {
+///     url: Some("https://petstore.swagger.io/v2/swagger.json"),
+///     script: None,
+///     persist_authorization: Some(true),
+/// };
+///
+/// let html = get_html(options);
+/// println!("{}", html);
+/// ```
+///
+/// This will generate the HTML for Swagger UI with the specified options.
+pub fn get_html(options: Options) -> String {
+    create_html(options)
+}
+
+pub fn get_oauth_receiver_html() -> String {
+    OAUTH_RECEIVER_HTML.to_string()
+}
+
+#[cfg(feature = "poem")]
 pub fn create_endpoint(options: Options) -> impl Endpoint {
     let ui_html = create_html(options);
     poem::Route::new()

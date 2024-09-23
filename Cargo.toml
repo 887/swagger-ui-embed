@@ -4,4 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-poem = { version = "^3.0.1" }
+poem = { version = "^3.1.0", optional = true}
+
+[features]
+default = []
+poem = ["dep:poem"]
