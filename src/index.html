@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html charset="UTF-8">
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>Swagger UI</title>
-{:style}
-{:script}
-</head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    {:favicon32}
+    {:favicon16}
+    {:style}
+    {:script}
+    </head>
 <body>
 
-<div id="ui"></div>
+<div id="swagger-ui"></div>
 <script>
     let oauth2RedirectUrl;
 
@@ -32,7 +34,7 @@
 
     function buildBundle() {
         return SwaggerUIBundle({
-            dom_id: '#ui',
+            dom_id: '#swagger-u',
             url: $url$,
             filter: false,
             oauth2RedirectUrl: oauth2RedirectUrl,

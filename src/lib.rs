@@ -1,6 +1,8 @@
 #[cfg(feature = "poem")]
 use poem::{endpoint::make_sync, web::Html, Endpoint};
 
+use include_base64::include_base64;
+
 const SWAGGER_UI_JS: &str = concat!(
     "<style charset=\"UTF-8\">\n",
     include_str!("swagger-ui.css"),
@@ -13,7 +15,19 @@ const SWAGGER_UI_CSS: &str = concat!(
     "\n</script>"
 );
 
-const OAUTH_RECEIVER_HTML: &str = include_str!("oauth-receiver.html");
+const SWAGGER_FAVICON_32: &str = concat!(
+    r#"<link rel="icon" href="data:image/png;base64,"#,
+    include_base64!("src/favicon-32x32.png"),
+    r#"" sizes="32x32">"#
+);
+
+const SWAGGER_FAVICON_16: &str = concat!(
+    r#"<link rel="icon" href="data:image/png;base64,"#,
+    include_base64!("src/favicon-16x16.png"),
+    r#"" sizes="16x16">"#
+);
+
+const OAUTH2_REDIRECT_HTML: &str = include_str!("oauth2-redirect.html");
 
 //https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
 const SWAGGER_UI_TEMPLATE: &str = include_str!("index.html");
@@ -29,6 +43,8 @@ fn create_html(options: Options) -> String {
     SWAGGER_UI_TEMPLATE
         .replace("{:style}", SWAGGER_UI_CSS)
         .replace("{:script}", SWAGGER_UI_JS)
+        .replace("{:favicon32}", SWAGGER_FAVICON_32)
+        .replace("{:favicon16}", SWAGGER_FAVICON_16)
         .replace(
             "$url$",
             &options
@@ -73,8 +89,8 @@ pub fn get_html(options: Options) -> String {
     create_html(options)
 }
 
-pub fn get_oauth_receiver_html() -> String {
-    OAUTH_RECEIVER_HTML.to_string()
+pub fn get_oauth2_redirect_html() -> String {
+    OAUTH2_REDIRECT_HTML.to_string()
 }
 
 #[cfg(feature = "poem")]
@@ -84,6 +100,6 @@ pub fn create_endpoint(options: Options) -> impl Endpoint {
         .at("/", make_sync(move |_| Html(ui_html.clone())))
         .at(
             "/oauth-receiver.html",
-            make_sync(move |_| Html(OAUTH_RECEIVER_HTML.to_string())),
+            make_sync(move |_| Html(OAUTH_REDIRECT_HTML.to_string())),
         )
 }
