@@ -16,13 +16,13 @@ const SWAGGER_UI_CSS: &str = concat!(
 );
 
 const SWAGGER_FAVICON_32: &str = concat!(
-    r#"<link rel="icon" href="data;image/png;base64,"#,
+    r#"<link rel="icon" href="data:image/png;base64,"#,
     include_base64!("src/favicon-32x32.png"),
     r#"" sizes="32x32">"#
 );
 
 const SWAGGER_FAVICON_16: &str = concat!(
-    r#"<link rel="icon" href="data;image/png;base64,"#,
+    r#"<link rel="icon" href="data:image/png;base64,"#,
     include_base64!("src/favicon-16x16.png"),
     r#"" sizes="16x16">"#
 );
