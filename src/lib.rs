@@ -43,8 +43,14 @@ fn create_html(options: Options) -> String {
     SWAGGER_UI_TEMPLATE
         .replace("{:style}", SWAGGER_UI_CSS)
         .replace("{:script}", SWAGGER_UI_JS)
-        .replace("{:favicon32}", SWAGGER_FAVICON_32)
-        .replace("{:favicon16}", SWAGGER_FAVICON_16)
+        .replace(
+            "{:favicon32}",
+            &SWAGGER_FAVICON_32.replace("_", "/").replace("-", "+"),
+        )
+        .replace(
+            "{:favicon16}",
+            &SWAGGER_FAVICON_16.replace("_", "/").replace("-", "+"),
+        )
         .replace(
             "$url$",
             &options
