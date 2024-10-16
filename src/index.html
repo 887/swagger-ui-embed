@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
+    {:favicon32}
+    {:favicon16}
     {:style}
     {:script}
     </head>
@@ -32,7 +34,7 @@
 
     function buildBundle() {
         return SwaggerUIBundle({
-            dom_id: '#swagger-u',
+            dom_id: '#swagger-ui',
             url: $url$,
             filter: false,
             oauth2RedirectUrl: oauth2RedirectUrl,
